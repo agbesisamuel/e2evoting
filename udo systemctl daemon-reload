@@ -1,0 +1,22 @@
+[0;1;32m●[0m gunicorn.service - gunicorn daemon
+     Loaded: loaded (/etc/systemd/system/gunicorn.service; disabled; vendor preset: enabled)
+     Active: [0;1;32mactive (running)[0m since Tue 2023-01-03 12:32:16 UTC; 4min 55s ago
+TriggeredBy: [0;1;32m●[0m gunicorn.socket
+   Main PID: 4089 (gunicorn)
+      Tasks: 4 (limit: 9406)
+     Memory: 148.3M
+     CGroup: /system.slice/gunicorn.service
+             ├─4089 /home/sagb/myapp/venv/bin/python3 /home/sagb/myapp/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock wsgi:application
+             ├─4108 /home/sagb/myapp/venv/bin/python3 /home/sagb/myapp/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock wsgi:application
+             ├─4109 /home/sagb/myapp/venv/bin/python3 /home/sagb/myapp/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock wsgi:application
+             └─4110 /home/sagb/myapp/venv/bin/python3 /home/sagb/myapp/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/run/gunicorn.sock wsgi:application
+
+Jan 03 12:32:16 res50 systemd[1]: Started gunicorn daemon.
+Jan 03 12:32:16 res50 gunicorn[4089]: [2023-01-03 12:32:16 +0000] [4089] [INFO] Starting gunicorn 20.0.4
+Jan 03 12:32:16 res50 gunicorn[4089]: [2023-01-03 12:32:16 +0000] [4089] [INFO] Listening at: unix:/run/gunicorn.sock (4089)
+Jan 03 12:32:16 res50 gunicorn[4089]: [2023-01-03 12:32:16 +0000] [4089] [INFO] Using worker: sync
+Jan 03 12:32:16 res50 gunicorn[4108]: [2023-01-03 12:32:16 +0000] [4108] [INFO] Booting worker with pid: 4108
+Jan 03 12:32:17 res50 gunicorn[4109]: [2023-01-03 12:32:17 +0000] [4109] [INFO] Booting worker with pid: 4109
+Jan 03 12:32:17 res50 gunicorn[4110]: [2023-01-03 12:32:17 +0000] [4110] [INFO] Booting worker with pid: 4110
+Jan 03 12:32:23 res50 gunicorn[4110]:  - - [03/Jan/2023:04:32:23 -0800] "GET / HTTP/1.0" 200 3427 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36 Edg/108.0.1462.54"
+Jan 03 12:37:01 res50 gunicorn[4108]:  - - [03/Jan/2023:04:37:01 -0800] "GET / HTTP/1.1" 200 2921 "-" "curl/7.68.0"
