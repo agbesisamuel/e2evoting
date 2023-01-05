@@ -67,7 +67,7 @@ DATABASES = {
 #     },
 # }
 
-# override if we have an env variable
+# override if we have an env variable. Deployment
 # if get_from_env('DATABASE_URL', None):
 #     import dj_database_url
 #     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
@@ -104,6 +104,9 @@ MEDIA_URL = ''
 # Examples: "http://foo.com/media/", "/media/".
 STATIC_URL = '/media/'
 
+
+
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = get_from_env('SECRET_KEY', None)
 
@@ -112,7 +115,7 @@ SECRET_KEY = get_from_env('SECRET_KEY', None)
 #More info: https://docs.djangoproject.com/en/1.7/ref/settings/#allowed-hosts (same for 1.6)
 
 #ALLOWED_HOSTS = get_from_env('ALLOWED_HOSTS', 'localhost').split(",")
-ALLOWED_HOSTS =('res50.itu.dk','www.res50.itu.dk','localhost')
+ALLOWED_HOSTS =('res50.itu.dk','www.res50.itu.dk','localhost','130.226.140.50')
 # Secure Stuff
 if get_from_env('SSL', '0') == '1':
     #SECURE_SSL_REDIRECT = True
@@ -241,9 +244,9 @@ HELIOS_VOTERS_EMAIL = True
 HELIOS_PRIVATE_DEFAULT = False
 
 # authentication systems enabled
-# AUTH_ENABLED_SYSTEMS = ['password','facebook','twitter', 'google', 'yahoo']
+#AUTH_ENABLED_SYSTEMS = ['password','facebook','twitter', 'google', 'yahoo']
 AUTH_ENABLED_SYSTEMS = get_from_env('AUTH_ENABLED_SYSTEMS',
-                                    get_from_env('AUTH_ENABLED_AUTH_SYSTEMS', 'password,google')
+                                    get_from_env('AUTH_ENABLED_AUTH_SYSTEMS', 'password,github,google')
                                     ).split(",")
 AUTH_DEFAULT_SYSTEM = get_from_env('AUTH_DEFAULT_SYSTEM', get_from_env('AUTH_DEFAULT_AUTH_SYSTEM', None))
 
@@ -263,13 +266,13 @@ FACEBOOK_API_KEY = get_from_env('FACEBOOK_API_KEY','')
 FACEBOOK_API_SECRET = get_from_env('FACEBOOK_API_SECRET','')
 
 # twitter
-TWITTER_API_KEY = ''
-TWITTER_API_SECRET = ''
+TWITTER_API_KEY = get_from_env('TWITTER_API_KEY','ILpgekrq6wew24VNZHffuJo29')
+TWITTER_API_SECRET = get_from_env('TWITTER_API_SECRET','yU3Akm6SqwS2LQxIqOsg9Uqj30WtlABBg0KNtJlDCOnvqrooIR')
 TWITTER_USER_TO_FOLLOW = 'heliosvoting'
 TWITTER_REASON_TO_FOLLOW = "we can direct-message you when the result has been computed in an election in which you participated"
 
 # the token for Helios to do direct messaging
-TWITTER_DM_TOKEN = {"oauth_token": "", "oauth_token_secret": "", "user_id": "", "screen_name": ""}
+TWITTER_DM_TOKEN = {"oauth_token": "1602314107797078019-PV8qDpWmkbjz46ODq53heobTYiiHXz", "oauth_token_secret": "1NLU8OsO-edYNxGFCZQzvTu2Kziq8m9tIRiQVFcwN9KHG4iSjaN2Eu", "user_id": "ItuComet", "screen_name": "COMET ITU"}
 
 # LinkedIn
 LINKEDIN_API_KEY = ''
@@ -286,8 +289,8 @@ CLEVER_CLIENT_ID = get_from_env('CLEVER_CLIENT_ID', "")
 CLEVER_CLIENT_SECRET = get_from_env('CLEVER_CLIENT_SECRET', "")
 
 # GitHub
-GH_CLIENT_ID = get_from_env('GH_CLIENT_ID', '')
-GH_CLIENT_SECRET = get_from_env('GH_CLIENT_SECRET', '')
+GH_CLIENT_ID = get_from_env('GH_CLIENT_ID', '79e3f1db94b2377fb55e')
+GH_CLIENT_SECRET = get_from_env('GH_CLIENT_SECRET', 'ad6fd2921e334a91b0a8fdeac6485f7daa2f2415')
 
 # email server
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' #added
@@ -326,4 +329,3 @@ if ROLLBAR_ACCESS_TOKEN:
     'access_token': ROLLBAR_ACCESS_TOKEN,
     'environment': 'development' if DEBUG else 'production',  
   }
-

@@ -741,7 +741,7 @@ def one_election_cast_confirm(request, election):
 
     # launch the verification task
     # THERE IS AN ISSUE HERE WE NEED TO FIX - VOTE VERIFICATION AND CASTIN IS HANGING 
-    # I COULD REMOVE .deley() TO FIX IT
+    # I COULD REMOVE .deley TO FIX IT
     tasks.cast_vote_verify_and_store(
       cast_vote_id = cast_vote.id,
       status_update_message = status_update_message)
@@ -1079,7 +1079,8 @@ def one_election_compute_tally(request, election):
   election.tallying_started_at = datetime.datetime.utcnow()
   election.save()
 
-  tasks.election_compute_tally.delay(election_id = election.id)
+  #remove .delay
+  tasks.election_compute_tally(election_id = election.id)
 
   return HttpResponseRedirect(settings.SECURE_URL_HOST + reverse(url_names.election.ELECTION_VIEW,args=[election.uuid]))
 
@@ -1287,7 +1288,8 @@ def voters_upload(request, election):
     
   if request.method == "POST":
     if bool(request.POST.get('confirm_p', 0)):
-      # launch the background task to parse that file. Remove .delay
+      # launch the background task to parse that file
+      # REMOVE .delay
       tasks.voter_file_process(voter_file_id = request.session['voter_file_id'])
       del request.session['voter_file_id']
 
@@ -1394,7 +1396,8 @@ def voters_email(request, election):
       voter_constraints_exclude = None
 
       if voter:
-        tasks.single_voter_email.delay(voter_uuid = voter.uuid, subject_template = subject_template, body_template = body_template, extra_vars = extra_vars)
+        #remove .delay
+        tasks.single_voter_email(voter_uuid = voter.uuid, subject_template = subject_template, body_template = body_template, extra_vars = extra_vars)
       else:
         # exclude those who have not voted
         if email_form.cleaned_data['send_to'] == 'voted':
@@ -1404,7 +1407,8 @@ def voters_email(request, election):
         if email_form.cleaned_data['send_to'] == 'not-voted':
           voter_constraints_include = {'vote_hash': None}
 
-        tasks.voters_email.delay(election_id = election.id, subject_template = subject_template, body_template = body_template, extra_vars = extra_vars, voter_constraints_include = voter_constraints_include, voter_constraints_exclude = voter_constraints_exclude)
+        # remove .delay
+        tasks.voters_email(election_id = election.id, subject_template = subject_template, body_template = body_template, extra_vars = extra_vars, voter_constraints_include = voter_constraints_include, voter_constraints_exclude = voter_constraints_exclude)
 
       # this batch process is all async, so we can return a nice note
       return HttpResponseRedirect(settings.SECURE_URL_HOST + reverse(url_names.election.ELECTION_VIEW, args=[election.uuid]))

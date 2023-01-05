@@ -50,14 +50,16 @@ def voters_email(election_id, subject_template, body_template, extra_vars={},
         voters = voters.exclude(**voter_constraints_exclude)
 
     for voter in voters:
-        single_voter_email.delay(voter.uuid, subject_template, body_template, extra_vars)
+        #remove .delay
+        single_voter_email(voter.uuid, subject_template, body_template, extra_vars)
 
 
 @shared_task
 def voters_notify(election_id, notification_template, extra_vars={}):
     election = Election.objects.get(id=election_id)
     for voter in election.voter_set.all():
-        single_voter_notify.delay(voter.uuid, notification_template, extra_vars)
+        #remove .delay
+        single_voter_notify(voter.uuid, notification_template, extra_vars)
 
 
 @shared_task
@@ -90,8 +92,8 @@ def single_voter_notify(voter_uuid, notification_template, extra_vars={}):
 def election_compute_tally(election_id):
     election = Election.objects.get(id=election_id)
     election.compute_tally()
-
-    election_notify_admin.delay(election_id=election_id,
+    #remove .delay
+    election_notify_admin(election_id=election_id,
                                 subject="encrypted tally computed",
                                 body="""
 The encrypted tally for election %s has been computed.
@@ -101,14 +103,16 @@ Helios
 """ % election.name)
 
     if election.has_helios_trustee():
-        tally_helios_decrypt.delay(election_id=election.id)
+        #remove .delay
+        tally_helios_decrypt(election_id=election.id)
 
 
 @shared_task
 def tally_helios_decrypt(election_id):
     election = Election.objects.get(id=election_id)
     election.helios_trustee_decrypt()
-    election_notify_admin.delay(election_id=election_id,
+    #remove .delay
+    election_notify_admin(election_id=election_id,
                                 subject='Helios Decrypt',
                                 body="""
 Helios has decrypted its portion of the tally
@@ -123,7 +127,8 @@ Helios
 def voter_file_process(voter_file_id):
     voter_file = VoterFile.objects.get(id=voter_file_id)
     voter_file.process()
-    election_notify_admin.delay(election_id=voter_file.election.id,
+    #remove .delay
+    election_notify_admin(election_id=voter_file.election.id,
                                 subject='voter file processed',
                                 body="""
 Your voter file upload for election %s
