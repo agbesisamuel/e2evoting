@@ -1,6 +1,6 @@
-# Helios Election System
+# E2E Internet Voting System
 
-Helios is an end-to-end verifiable voting system.
+This is an end-to-end verifiable voting system.
 
 [![Travis Build Status](https://travis-ci.org/benadida/helios-server.svg?branch=master)](https://travis-ci.org/benadida/helios-server)
 
